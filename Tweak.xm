@@ -42,7 +42,7 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
 - (BOOL)isNetworkTrackingEnabled { return NO; }
 - (BOOL)isNetworkBreadcrumbEnabled { return NO; }
 - (void)setIsNetworkTrackingEnabled:(BOOL)a { %orig(NO); }
-- (BOOL)setIsNetworkBreadcrumbEnabled:(BOOL)a { %orig(NO); }
+- (void)setIsNetworkBreadcrumbEnabled:(BOOL)a { %orig(NO); }
 %end
 
 // app-measurement
