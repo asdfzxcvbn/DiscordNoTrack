@@ -15,6 +15,11 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
     if ([request.URL.absoluteString containsString:@"firebaselogging"]) { return %orig(blocked, data, handler); }
     return %orig(request, data, handler);
 }
+
+- (id)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(id)handler {
+    if ([request.URL.absoluteString containsString:@"adjust.com"]) { return %orig(blocked, handler); }
+    return %orig(request, handler);
+}
 %end
 
 // sentry

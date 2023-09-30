@@ -4,7 +4,7 @@ blocks network requests to the following endpoints:
 - discord.com/api/v9/metrics
 - adjust
 - sentry
+- app-measurement
 - firebase logging
-- app-measurement.com
 
-you can get the deb/dylib on [the latest release's page](https://github.com/asdfzxcvbn/DiscordNoTrack/releases/tag/v3.0.0).
+you can get the deb/dylib on [the latest release's page](https://github.com/asdfzxcvbn/DiscordNoTrack/releases/tag/v3.0.1).
