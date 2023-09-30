@@ -24,9 +24,44 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
 
 %hook SentryOptions
 - (BOOL)enabled { return NO; }
+- (BOOL)isTracingEnabled { return NO; }
+- (BOOL)isProfilingEnabled { return NO; }
+- (void)setEnabled:(BOOL)a { %orig(NO); }
+%end
+
+%hook SentryClient
+- (BOOL)isEnabled { return NO; }
+%end
+
+%hook SentryNSDataTracker
+- (BOOL)isEnabled { return NO; }
+- (void)setIsEnabled:(BOOL)a { %orig(NO); }
+%end
+
+%hook SentryNetworkTracker
+- (BOOL)isNetworkTrackingEnabled { return NO; }
+- (BOOL)isNetworkBreadcrumbEnabled { return NO; }
+- (void)setIsNetworkTrackingEnabled:(BOOL)a { %orig(NO); }
+- (BOOL)setIsNetworkBreadcrumbEnabled:(BOOL)a { %orig(NO); }
 %end
 
 // app-measurement
 %hook APMMeasurement
+- (void)uploadData {}
 - (BOOL)isEnabled { return NO; }
+- (BOOL)hasDataToUpload { return NO; }
+- (BOOL)isNetworkRequestPending { return NO; }
+- (BOOL)isAnalyticsCollectionEnabled { return NO; }
+- (BOOL)isAnalyticsCollectionDeactivated { return YES; }
+%end
+
+// adjust
+%hook Adjust
++ (BOOL)isEnabled { return NO; }
++ (void)setOfflineMode:(BOOL)a { %orig(YES); }
+- (void)setEnabled:(BOOL)a { %orig(NO); }
+%end
+
+%hook ADJActivityHandler
+- (void)setOfflineMode:(BOOL)a { %orig(YES); }
 %end
