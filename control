@@ -1,0 +1,9 @@
+Package: fyi.zxcvbn.discordnotrack
+Name: DiscordNoTrack
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: blocks discord's requests to /api/v9/science endpoint and sentry
+Author: zxcvbn
+Maintainer: zxcvbn
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 12.0)
