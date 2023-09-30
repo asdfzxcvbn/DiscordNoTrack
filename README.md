@@ -1,5 +1,5 @@
 # DiscordNoTrack
-blocks network responses to the following endpoints:
+blocks network requests to the following endpoints:
 - discord.com/api/v9/science
 - discord.com/api/v9/metrics
 - \*.sentry.io/\*
