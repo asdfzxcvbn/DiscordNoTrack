@@ -9,7 +9,7 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
 }
 %end
 
-// firebase logging
+// firebase logging + adjust network blocking
 %hook NSURLSession
 - (id)uploadTaskWithRequest:(NSURLRequest *)request fromData:(id)data completionHandler:(id)handler {
     if ([request.URL.absoluteString containsString:@"firebaselogging"]) { return %orig(blocked, data, handler); }
@@ -17,7 +17,8 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
 }
 
 - (id)dataTaskWithRequest:(NSURLRequest *)request completionHandler:(id)handler {
-    if ([request.URL.absoluteString containsString:@"adjust.com"]) { return %orig(blocked, handler); }
+    // jesus, they apparently own like, 3 domains? that's stupid.
+    if ([request.URL.absoluteString containsString:@"adjust."]) { return %orig(blocked, handler); }
     return %orig(request, handler);
 }
 %end
@@ -69,4 +70,12 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
 
 %hook ADJActivityHandler
 - (void)setOfflineMode:(BOOL)a { %orig(YES); }
+%end
+
+// crashlytics
+%hook FIRCrashlytics
++ (void)load {}
+- (void)sendUnsentReports {}
+- (void)setIsCrashlyticsCollectionEnabled:(BOOL)a { %orig(NO); }
+- (BOOL)isCrashlyticsCollectionEnabled { return NO; }
 %end
