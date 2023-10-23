@@ -1,4 +1,6 @@
 #import <Foundation/Foundation.h>
+%config(generator=internal);
+
 NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://0.0.0.0/"]];
 
 // main discord endpoints
