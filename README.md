@@ -8,4 +8,4 @@ blocks network requests to the following endpoints:
 - app-measurement
 - firebase (analytics)
 
-you can get the deb/dylib on [the latest release's page](https://github.com/asdfzxcvbn/DiscordNoTrack/releases/tag/v5.0.0).
+you can get the deb/dylib on [the latest release's page](https://github.com/asdfzxcvbn/DiscordNoTrack/releases/latest).
