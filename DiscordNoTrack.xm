@@ -1,12 +1,15 @@
 #import <Foundation/Foundation.h>
+#import "dummyDelegate.h"
 %config(generator=internal);
 
+dummyDelegate *dummy = [[dummyDelegate alloc] init];
 NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://0.0.0.0/"]];
+NSArray *endpoints = @[@"/api/v9/science", @"/api/v9/metrics"];
 
 // main discord endpoints
 %hook RCTHTTPRequestHandler
 - (id)sendRequest:(NSURLRequest *)request withDelegate:(id)delegate {
-    if ([request.URL.absoluteString containsString:@"/api/v9/science"] || [request.URL.absoluteString containsString:@"/api/v9/metrics"]) { return %orig(blocked, delegate); }
+    if ([endpoints containsObject:request.URL.path]) { return %orig(blocked, dummy); }
     return %orig(request, delegate);
 }
 %end
@@ -66,18 +69,23 @@ NSURLRequest *blocked = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http
 // adjust
 %hook Adjust
 + (BOOL)isEnabled { return NO; }
-+ (void)setOfflineMode:(BOOL)a { %orig(YES); }
++ (void)setEnabled:(BOOL)a { %orig(NO); }
++ (void)setOfflineMode:(BOOL)arg1 { %orig(YES); }
+- (void)setOfflineMode:(BOOL)arg1 { %orig(YES); }
 - (void)setEnabled:(BOOL)a { %orig(NO); }
+- (BOOL)isInstanceEnabled { return NO; }
+- (BOOL)isEnabled { return NO; }
 %end
 
 %hook ADJActivityHandler
 - (void)setOfflineMode:(BOOL)a { %orig(YES); }
+- (void)setOfflineModeI:(id)a offline:(BOOL)b { %orig(a, YES); }
 %end
 
 // crashlytics
 %hook FIRCrashlytics
 + (void)load {}
 - (void)sendUnsentReports {}
-- (void)setIsCrashlyticsCollectionEnabled:(BOOL)a { %orig(NO); }
+- (void)setCrashlyticsCollectionEnabled:(BOOL)a { %orig(NO); }
 - (BOOL)isCrashlyticsCollectionEnabled { return NO; }
 %end
